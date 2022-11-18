@@ -1,5 +1,6 @@
 import type { ImageData } from "@/stores/outputs";
 import { useGeneratorStore } from '@/stores/generator';
+import {useOptionsStore} from "@/stores/options";
 
 // Fill the 'generateView' if we're given information in the url
 const handleUrlParams = function() {
@@ -37,6 +38,13 @@ const handleUrlParams = function() {
     // Pass to generator view
     const store = useGeneratorStore();
     store.generateText2Img(imageData);
+
+    // Set api-key if present
+    const apiKey = paramMap.get("api_key");
+    if (apiKey) {
+        const optionStore = useOptionsStore()
+        optionStore.apiKey = apiKey;
+    }
 }
 
 export default handleUrlParams;
